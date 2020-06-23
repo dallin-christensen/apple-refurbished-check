@@ -30,8 +30,8 @@ const items = [
 ]
 
 const scrapeAppleRefurbAvailability = async ({ url }) => {
-  // const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
-  const browser = await puppeteer.launch({headless: false});
+  const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
+  // const browser = await puppeteer.launch({headless: false});
   const page = await browser.newPage();
 
   await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36');
