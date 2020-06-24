@@ -9,11 +9,20 @@ const transporter = nodemailer.createTransport({
   }
 })
 
-const getCurrentDate = (includeTime) => {
+const getCurrentDate = () => {
   const date = new Date()
-  const time = `${date.getHours()}:${date.getMinutes()}`
+  const legibleTime = `${date.getHours()}:${date.getMinutes()}`
   const legibleDate = `${date.getMonth() + 1}/${date.getDate()}`
-  return includeTime ? `${legibleDate} ${time}` : legibleDate
+
+  return {
+    legibleDate,
+    legibleTime,
+    legibleDateTime: `${legibleDate} ${legibleTime}`,
+    month: date.getMonth() + 1,
+    date: date.getDate(),
+    hour: date.getHours(),
+    minute: date.getMinutes(),
+  }
 }
 
 const items = [
@@ -75,17 +84,17 @@ const sendMail = async ({ item }) => {
 }
 
 const emailAvailableItems = async () => {
-  console.log(`starting scrape for: ${getCurrentDate(true)}`)
-
   const date = getCurrentDate()
+  console.log(`starting scrape for: ${date.legibleDateTime}`)
+
   for (const item of items) {
     // check if already emailed availability today:
-    if (date !== item.dateEmailed) {
+    if (date.legibleDate !== item.dateEmailed && date.hour >= 7) {
       const isAvailable = await scrapeAppleRefurbAvailability({ url: item.address })
 
       if (isAvailable) {
         await sendMail({ item })
-        item.dateEmailed = getCurrentDate()
+        item.dateEmailed = date.legibleDate
       } else {
         console.log(`none available for ${item.name} :(`)
       }
