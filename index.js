@@ -30,11 +30,13 @@ const items = [
 ]
 
 const scrapeAppleRefurbAvailability = async ({ url }) => {
+  console.log('starting headless browser...')
   const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'], executablePath: 'chromium-browser' });
   const page = await browser.newPage();
 
   await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36');
 
+  console.log('checking url...')
   await page.goto(url, {waitUntil: 'networkidle2'}).catch(console.warn);
 
   const isDisabled = await page.evaluate(() => {
@@ -56,12 +58,10 @@ const sendMail = async ({ item }) => {
     text: `${item.name} is available here: ${item.address}`,
   }
 
-  console.log({ scraperEmail: process.env.SCRAPER_EMAIL, scraperPass: process.env.SCRAPER_PASS })
-
-  // await transporter.sendMail(mailOptions)
-  //   .catch((err) => {
-  //     console.error('mail failed to send: ', err)
-  //   })
+  await transporter.sendMail(mailOptions)
+    .catch((err) => {
+      console.error('mail failed to send: ', err)
+    })
 }
 
 const emailAvailableItems = async () => {
@@ -76,6 +76,8 @@ const emailAvailableItems = async () => {
       if (isAvailable) {
         await sendMail({ item })
         item.dateEmailed = getCurrentDate()
+      } else {
+        console.log(`none available for ${item.name} :(`)
       }
     }
   }
