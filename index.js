@@ -48,6 +48,7 @@ const scrapeAppleRefurbAvailability = async ({ url }) => {
 }
 
 const sendMail = async ({ item }) => {
+  console.log('sending mail...')
   const mailOptions = {
     from: process.env.SCRAPER_EMAIL,
     to: process.env.SCRAPER_TO,
@@ -55,10 +56,12 @@ const sendMail = async ({ item }) => {
     text: `${item.name} is available here: ${item.address}`,
   }
 
-  await transporter.sendMail(mailOptions)
-    .catch((err) => {
-      console.error('mail failed to send: ', err)
-    })
+  console.log({ scraperEmail: process.env.SCRAPER_EMAIL, scraperPass: process.env.SCRAPER_PASS })
+
+  // await transporter.sendMail(mailOptions)
+  //   .catch((err) => {
+  //     console.error('mail failed to send: ', err)
+  //   })
 }
 
 const emailAvailableItems = async () => {
