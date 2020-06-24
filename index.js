@@ -81,6 +81,8 @@ const emailAvailableItems = async () => {
       }
     }
   }
+
+  console.log('all done! will check again in one hour :)')
 }
 
 const runCheckRefurbApp = () => {
