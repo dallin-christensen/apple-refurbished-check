@@ -23,10 +23,20 @@ const items = [
     dateEmailed: null,
   },
   {
+    address: 'https://www.apple.com/shop/product/FTXP2LL/A/refurbished-11-inch-ipad-pro-wi-fi-64gb-silver',
+    name: '11 inch ipad silver',
+    dateEmailed: null,
+  },
+  {
     address: 'https://www.apple.com/shop/product/FVVJ2LL/A/refurbished-16-inch-macbook-pro-26ghz-6-core-intel-core-i7-with-retina-display-space-gray',
     name: '16 inch MBP',
     dateEmailed: null,
-  }
+  },
+  {
+    address: 'https://www.apple.com/shop/product/FVVL2LL/A/refurbished-16-inch-macbook-pro-26ghz-6-core-intel-core-i7-with-retina-display-silver',
+    name: '16 inch MBP silver',
+    dateEmailed: null,
+  },
 ]
 
 const scrapeAppleRefurbAvailability = async ({ url }) => {
