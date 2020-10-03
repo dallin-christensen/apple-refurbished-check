@@ -50,7 +50,7 @@ const items = [
 
 const scrapeAppleRefurbAvailability = async ({ url }) => {
   console.log('starting headless browser...')
-  const puppeteerLaunchOptions = process.env.IS_PI
+  const puppeteerLaunchOptions = process.platform === 'linux'
     ? {headless: true, args: ['--no-sandbox'], executablePath: 'chromium-browser'}
     : {headless: true}
   const browser = await puppeteer.launch(puppeteerLaunchOptions);
